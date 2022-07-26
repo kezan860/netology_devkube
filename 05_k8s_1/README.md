@@ -131,7 +131,7 @@ service/hello-node exposed
 
 <img src="./img/1.png" alt="">
 
-<img src="./img/2.png" alt="">
+<img src="./img/1-1.png" alt="">
 
 ## Задача 3: Установить kubectl
 
