@@ -92,6 +92,31 @@ storage-provisioner                1/1     Running   1 (57s ago)   66s
 |-----------------------------|----------|--------------|--------------------------------|
 ```
 
+Образ представленный в туториале, не поддерживается на MacOS на M1, поэтому я взял свой образ с похожим смыслом `kezan86/myhello`
+
+```
+✗ kubectl create deployment hello-node --image=kezan86/myhello
+deployment.apps/hello-node created
+```
+
+```
+✗ kubectl get deployments
+NAME         READY   UP-TO-DATE   AVAILABLE   AGE
+hello-node   1/1     1            1           2m41s
+```
+
+```
+✗ kubectl get pods
+NAME                          READY   STATUS    RESTARTS   AGE
+hello-node-64df8db489-24xbt   1/1     Running   0          2m59s
+```
+
+Мой образ работает на порту 8888
+```
+✗ kubectl expose deployment hello-node --type=LoadBalancer --port=8888
+service/hello-node exposed
+```
+
 Сервис запущен:
 
 ```
