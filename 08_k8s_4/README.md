@@ -11,4 +11,30 @@
 
 1. Инвертарь kubespray
 
-[Ссылка на Инвентарь](https://github.com/kezan860/netology_devkube/blob/master/08_k8s_4/src/ansible/inventory.ini)
+
+
+
+Ход решения:
+
+1) Добавил публичный ключь на все машины для авторизации по SSH
+Сгенерировал ключ
+```
+$ ssh-keygen -t rsa
+```
+
+2) Скопировал ключ на ноды
+```
+$ cd .ssh
+$ vi authorized_keys 
+$ chmod 600 authorized_keys 
+$ 
+```
+
+3) В `group_vars/k8s_cluster` поменял параметр на `container_manager: containerd`
+
+4) Создал файл инвентаря. [Ссылка на Инвентарь](https://github.com/kezan860/netology_devkube/blob/master/08_k8s_4/src/ansible/inventory.ini)
+
+5) Запустил команду
+```
+$ ansible-playbook -i inventory.ini --become --become-user=root cluster.yml
+```
