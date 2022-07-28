@@ -11,8 +11,8 @@
 
 Подготовил два файла:
 
-1) Для запуска фронтенда и бекенда в stage окружении - [10-app.yaml]()
-2) Для запуска базы данных в stage окружении - [20-postgres.yaml]()
+1) Для запуска фронтенда и бекенда в stage окружении - [10-app.yaml](https://github.com/kezan860/netology_devkube/blob/master/10_helm_1/.helm/stage/10-app.yaml)
+2) Для запуска базы данных в stage окружении - [20-postgres.yaml](https://github.com/kezan860/netology_devkube/blob/master/10_helm_1/.helm/stage/20-postgres.yaml)
 
 Ход выполения:
 ```
@@ -205,9 +205,9 @@ Events:
 
 Подготовил три файла:
 
-1) Для запуска фронтенда в production окружении - [10-front.yaml]()
-2) Для запуска бекенда в production окружении - [20-back.yaml]()
-3) Для запуска базы данных в production окружении - [30-postgres.yaml]()
+1) Для запуска фронтенда в production окружении - [10-front.yaml](https://github.com/kezan860/netology_devkube/blob/master/10_helm_1/.helm/production/10-front.yaml)
+2) Для запуска бекенда в production окружении - [20-back.yaml](https://github.com/kezan860/netology_devkube/blob/master/10_helm_1/.helm/production/20-back.yaml)
+3) Для запуска базы данных в production окружении - [30-postgres.yaml](https://github.com/kezan860/netology_devkube/blob/master/10_helm_1/.helm/production/30-postgres.yaml)
 
 Ход выполнения:
 
