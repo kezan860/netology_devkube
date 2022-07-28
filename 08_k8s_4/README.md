@@ -11,3 +11,4 @@
 
 1. Инвертарь kubespray
 
+[Ссылка на Инвентарь](https://github.com/kezan860/netology_devkube/blob/master/08_k8s_4/src/ansible/inventory.ini)
