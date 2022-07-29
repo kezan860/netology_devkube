@@ -137,14 +137,78 @@ Hello nfs
 
 # Ответ:
 
+0. Установка provisioner nfs в production окружение:
+```
+$helm install nfs-server stable/nfs-server-provisioner -n production
+```
+
 1. Создал PVC из файла - [10-pvc-nfs.yaml]()
 ```
-✗ kubectl apply -f 10-pvc-nfs.yaml
+$ kubectl apply -n production -f 10-pvc-nfs.yaml
 persistentvolumeclaim/shared created
 
-✗ kubectl get pvc
-NAME                             STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
-shared                           Bound    pvc-0b2181b0-6e1a-4efe-a5d3-7c48980270f3   1Gi        RWX            nfs            12s
+$ kubectl -n production get pvc
+NAME     STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+shared   Bound    pvc-ad54d55e-ada3-4f10-b913-3f1d8ad82725   1Gi        RWX            nfs            28s        12s
+```
+
+2. Создал и запустил поды <br>
+
+1) [30-prod-front.yaml]()
+2) [40-prod-back.yaml]()
+
+```
+$ kubectl apply -n production -f 30-prod-front.yaml -f 40-prod-back.yaml
+deployment.apps/prod-f-v2 created
+service/prod-f-v2 created
+deployment.apps/prod-b-v2 created
+service/prod-b-v2 created
+
+$ kubectl get po,pvc,deploy
+NAME                                      READY   STATUS    RESTARTS   AGE
+pod/nfs-server-nfs-server-provisioner-0   1/1     Running   0          7s
+pod/prod-b-v2-69cbf87889-gsfb8            1/1     Running   0          13m
+pod/prod-b-v2-69cbf87889-q29bx            1/1     Running   0          13m
+pod/prod-f-v2-596886c7c-nm62r             1/1     Running   1          13m
+
+NAME                           STATUS   VOLUME   CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+persistentvolumeclaim/shared   Bound    nfs-pv   1Gi        RWX            nfs            47m
+
+NAME                        READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/prod-b-v2   2/2     2            2           13m
+deployment.apps/prod-f-v2   1/1     1            1           13m
+```
+
+3. Записываем в prod-b-v2:
+
+```
+$ kubectl exec prod-b-v2-69cbf87889-gsfb8 -c prod-b-v2 -- ls -la /mnt/nfs
+total 8
+drwxr-xr-x 2 nobody nogroup 4096 Aug 31 19:33 .
+drwxr-xr-x 1 root   root    4096 Aug 31 19:55 ..
+
+$ kubectl exec prod-b-v2-69cbf87889-gsfb8 -c prod-b-v2 -- sh -c 'echo "test2" > /mnt/nfs/test2.txt'
+
+$ kubectl exec prod-b-v2-69cbf87889-gsfb8 -c prod-b-v2 -- ls -la /mnt/nfs
+total 12
+drwxr-xr-x 2 nobody nogroup 4096 Aug 31 19:59 .
+drwxr-xr-x 1 root   root    4096 Aug 31 19:55 ..
+-rw-r--r-- 1 nobody nogroup    6 Aug 31 19:59 test2.txt
+
+$ kubectl exec prod-b-v2-69cbf87889-gsfb8 -c prod-b-v2 -- cat /mnt/nfs/test2.txt
+test2
+```
+
+Прочитываем с prod-f-v2:
+
+```
+$ kubectl exec prod-f-v2-596886c7c-nm62r -c client -- ls -la /mnt/nfs
+total 12
+drwxr-xr-x 2 nobody nogroup 4096 Aug 31 19:59 .
+drwxr-xr-x 1 root   root    4096 Aug 31 19:57 ..
+-rw-r--r-- 1 nobody nogroup    6 Aug 31 19:59 test2.txt
 
 
+kubectl exec prod-f-v2-596886c7c-nm62r -c client -- cat /mnt/nfs/test2.txt
+test2
 ```
