@@ -82,7 +82,7 @@ nfs-server-nfs-server-provisioner   ClusterIP   10.100.33.79   <none>        204
 
 ## Ответ:
 
-Запустил контейнер из файла [20-stage-pod.yaml]()
+Запустил контейнер из файла [20-stage-pod.yaml](https://github.com/kezan860/netology_devkube/blob/master/11_helm_2/.helm/20-stage-pod.yaml)
 ```
 ✗ kubectl apply -f 20-stage-pod.yaml
 pod/pod-int-volumes created
@@ -142,7 +142,7 @@ Hello nfs
 $helm install nfs-server stable/nfs-server-provisioner -n production
 ```
 
-1. Создал PVC из файла - [10-pvc-nfs.yaml]()
+1. Создал PVC из файла - [10-pvc-nfs.yaml](https://github.com/kezan860/netology_devkube/blob/master/11_helm_2/.helm/10-pvc-nfs.yaml)
 ```
 $ kubectl apply -n production -f 10-pvc-nfs.yaml
 persistentvolumeclaim/shared created
@@ -154,8 +154,8 @@ shared   Bound    pvc-ad54d55e-ada3-4f10-b913-3f1d8ad82725   1Gi        RWX     
 
 2. Создал и запустил поды <br>
 
-1) [30-prod-front.yaml]()
-2) [40-prod-back.yaml]()
+1) [30-prod-front.yaml](https://github.com/kezan860/netology_devkube/blob/master/11_helm_2/.helm/30-prod-front.yaml)
+2) [40-prod-back.yaml](https://github.com/kezan860/netology_devkube/blob/master/11_helm_2/.helm/40-prod-back.yaml)
 
 ```
 $ kubectl apply -n production -f 30-prod-front.yaml -f 40-prod-back.yaml
