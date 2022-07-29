@@ -1,50 +1,56 @@
-# Config Back
+# Config Back Deployment with PVC v2 (13.2)
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
     app: ecommerce
-    tier: back
-  name: prod-b
+    tier: back-v2
+  name: prod-b-v2
 spec:
   replicas: 2
   selector:
     matchLabels:
       app: ecommerce
-      tier: back
+      tier: back-v2
   template:
     metadata:
       labels:
         app: ecommerce
-        tier: back
+        tier: back-v2
     spec:
       containers:
       - env:
         - name: DATABASE_HOST
           value: postgres
         - name: DATABASE_NAME
-          value: prod-db
+          value: product
         - name: DATABASE_PASSWORD
-          value: postgres
+          value: pr0dr0b0t
         - name: DATABASE_USER
-          value: postgres
+          value: product_robot
         - name: DATABASE_PORT
           value: "5432"
         image: chrischinchilla/humanitech-product-be
         imagePullPolicy: "IfNotPresent"
-        name: prod-b
+        name: prod-b-v2
         ports:
         - containerPort: 8080
-      restartPolicy: Always
-# Config Service
+        volumeMounts:
+        - name: data
+          mountPath: /mnt/nfs   
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: shared
+# config back service
 ---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
     app: ecommerce
-    tier: back
-  name: prod-b
+    tier: back-v2
+  name: prod-b-v2
 spec:
   type: NodePort
   ports:
@@ -53,4 +59,4 @@ spec:
     targetPort: 8080
   selector:
     app: ecommerce
-    tier: back
+    tier: back-v2

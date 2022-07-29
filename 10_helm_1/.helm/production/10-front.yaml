@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: client
-        image: nginx:1.14.2
+        image: chrischinchilla/humanitech-product-fe
         imagePullPolicy: "IfNotPresent"
         ports:
         - name: http

@@ -1,0 +1,13 @@
+# Config PVC from HELM example for NFS
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: shared
+spec:
+  storageClassName: "nfs"
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi

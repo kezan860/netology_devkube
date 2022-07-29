@@ -1,0 +1,49 @@
+# Config Front Deployment with PVC v2 (13.2)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: prod-f-v2
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: ecommerce
+            tier: front-v2
+    template:
+        metadata:
+            labels:
+                app: ecommerce
+                tier: front-v2
+        spec:
+          containers:
+          - name: client
+            image: chrischinchilla/humanitech-product-fe
+            imagePullPolicy: "IfNotPresent"
+            ports:
+            - name: http
+              containerPort: 8080
+            env:
+            - name: PROD_B_V2_SERVER_URL
+              value: prod-b-v2
+            volumeMounts:
+            - name: data
+              mountPath: /mnt/nfs   
+          volumes:
+            - name: data
+              persistentVolumeClaim:
+                claimName: shared
+# Config Front Service
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: prod-f-v2
+spec:
+    type: NodePort
+    ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+    selector:
+        app: ecommerce
+        tier: front-v2
