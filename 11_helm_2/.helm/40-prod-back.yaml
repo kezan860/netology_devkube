@@ -31,9 +31,8 @@ spec:
         - name: DATABASE_PORT
           value: "5432"
         name: prod-b-v2
-        image: debian
+        image: chrischinchilla/humanitech-product-be
         imagePullPolicy: "IfNotPresent"
-        command: ["sleep", "3600"]
         ports:
         - containerPort: 8080
         volumeMounts:

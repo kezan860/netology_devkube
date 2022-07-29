@@ -33,7 +33,6 @@ spec:
         name: prod-b-v2
         image: chrischinchilla/humanitech-product-be
         imagePullPolicy: "IfNotPresent"
-        command: ["sleep", "3600"]
         ports:
         - containerPort: 8080
       restartPolicy: Always
