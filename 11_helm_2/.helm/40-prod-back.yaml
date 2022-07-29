@@ -30,9 +30,10 @@ spec:
           value: product_robot
         - name: DATABASE_PORT
           value: "5432"
-        image: chrischinchilla/humanitech-product-be
-        imagePullPolicy: "IfNotPresent"
         name: prod-b-v2
+        image: debian
+        imagePullPolicy: "IfNotPresent"
+        command: ["sleep", "3600"]
         ports:
         - containerPort: 8080
         volumeMounts:

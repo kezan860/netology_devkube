@@ -23,16 +23,17 @@ spec:
         - name: DATABASE_HOST
           value: postgres
         - name: DATABASE_NAME
-          value: prod-db
+          value: product
         - name: DATABASE_PASSWORD
-          value: postgres
+          value: pr0dr0b0t
         - name: DATABASE_USER
-          value: postgres
+          value: product_robot
         - name: DATABASE_PORT
           value: "5432"
+        name: prod-b-v2
         image: chrischinchilla/humanitech-product-be
         imagePullPolicy: "IfNotPresent"
-        name: prod-b
+        command: ["sleep", "3600"]
         ports:
         - containerPort: 8080
       restartPolicy: Always
